@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kontak — SMK Telkom Purwokerto</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23E31E24'/><text y='.9em' font-size='70' x='50%' dominant-baseline='auto' text-anchor='middle' fill='white' font-weight='900' font-family='monospace'>T</text></svg>" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .page-hero { background: var(--navy); padding: 80px 0 60px; }
+    .page-hero h1 { color: white; }
+    .breadcrumb { display:flex; gap:8px; align-items:center; margin-bottom:16px; font-size:.85rem; }
+    .breadcrumb a { color:rgba(255,255,255,.55); } .breadcrumb span { color:rgba(255,255,255,.3); } .breadcrumb .current { color:var(--red-light); }
+
+    .kontak-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; align-items: start; }
+
+    .kontak-info-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 20px; }
+    .ki-header { display: flex; gap: 14px; align-items: center; margin-bottom: 18px; }
+    .ki-icon { width: 50px; height: 50px; border-radius: 12px; background: var(--navy); display:flex; align-items:center; justify-content:center; font-size: 1.4rem; flex-shrink: 0; }
+    .ki-title { font-weight: 800; font-size: 1rem; }
+    .ki-sub { font-size: .82rem; color: var(--gray-400); }
+    .ki-content { font-size: .9rem; color: var(--gray-600); line-height: 1.7; }
+    .ki-content strong { color: var(--text); }
+
+    .jam-table { width: 100%; }
+    .jam-table tr td { padding: 6px 0; font-size: .88rem; }
+    .jam-table tr td:first-child { color: var(--gray-600); width: 140px; }
+    .jam-table tr td:last-child { font-weight: 600; }
+    .open-tag { background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-size:.72rem; font-weight:700; }
+    .closed-tag { background: var(--gray-100); color: var(--gray-600); padding: 2px 8px; border-radius: 4px; font-size:.72rem; font-weight:700; }
+
+    .contact-form { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 36px; }
+    .contact-form h3 { font-size: 1.3rem; margin-bottom: 6px; }
+    .contact-form p { font-size: .88rem; color: var(--gray-600); margin-bottom: 28px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .cform-group { margin-bottom: 16px; }
+    .cform-group label { display: block; font-size: .8rem; font-weight: 700; color: var(--gray-600); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .05em; }
+    .cform-group input, .cform-group select, .cform-group textarea {
+      width: 100%; padding: 11px 14px; border-radius: 8px;
+      border: 1.5px solid var(--gray-200); background: var(--white);
+      color: var(--text); font-family: inherit; font-size: .9rem;
+      transition: var(--transition); resize: vertical;
+    }
+    .cform-group input:focus, .cform-group select:focus, .cform-group textarea:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(227,30,36,.1); }
+    .btn-send { width: 100%; padding: 14px; border-radius: 8px; background: var(--navy); color: white; font-weight: 800; font-size: 1rem; cursor: pointer; transition: var(--transition); }
+    .btn-send:hover { background: var(--red); }
+
+    .map-container { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--gray-200); height: 320px; background: var(--gray-100); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; margin-top: 40px; }
+    .map-placeholder { font-size: 3rem; }
+    .map-placeholder-text { font-size: .9rem; color: var(--gray-600); text-align:center; }
+
+    @media(max-width:768px){ .kontak-grid { grid-template-columns:1fr; } .form-row { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+  <div id="topbar">
+    <div class="container">
+      <div>📍 Jl. D.I. Panjaitan No.128, Purwokerto &nbsp;|&nbsp; ☎️ (0281) 635231</div>
+    </div>
+  </div>
+
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="../index.html" class="nav-brand">
+          <div class="brand-logo">TK</div>
+          <div class="brand-name">SMK Telkom Purwokerto<span>Sekolah Unggulan Berbasis Teknologi</span></div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="../index.html">Beranda</a></li>
+          <li><a href="profil.html">Profil</a></li>
+          <li class="nav-dropdown"><a href="#">Program Keahlian</a>
+            <div class="dropdown-menu">
+              <a href="rpl.html">💻 Rekayasa Perangkat Lunak</a>
+              <a href="tkj.html">🌐 Teknik Komputer & Jaringan</a>
+              <a href="multimedia.html">🎨 Multimedia</a>
+              <a href="akuntansi.html">📊 Akuntansi & Keuangan</a>
+            </div>
+          </li>
+          <li><a href="berita.html">Berita</a></li>
+          <li><a href="galeri.html">Galeri</a></li>
+          <li><a href="kontak.html" class="active">Kontak</a></li>
+          <li><a href="ppdb.html" class="btn btn-primary">PPDB 2025</a></li>
+        </ul>
+        <button class="nav-toggle"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Beranda</a><span>/</span><span class="current">Kontak</span></div>
+      <h1 class="heading-xl">Hubungi Kami</h1>
+      <p style="color:rgba(255,255,255,.65);margin-top:10px;font-size:1.05rem;">Kami siap membantu Anda. Jangan ragu untuk menghubungi kami!</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="kontak-grid">
+        <div>
+          <!-- Info Cards -->
+          <div class="kontak-info-card fade-up">
+            <div class="ki-header">
+              <div class="ki-icon">📍</div>
+              <div><div class="ki-title">Alamat Sekolah</div><div class="ki-sub">Kunjungi kami langsung</div></div>
+            </div>
+            <div class="ki-content">
+              <strong>SMK Telkom Purwokerto</strong><br>
+              Jl. D.I. Panjaitan No.128,<br>
+              Kelurahan Purwokerto Timur,<br>
+              Kabupaten Banyumas, Jawa Tengah 53115<br><br>
+              <em>±500 meter dari Stasiun Purwokerto</em>
+            </div>
+          </div>
+
+          <div class="kontak-info-card fade-up delay-1">
+            <div class="ki-header">
+              <div class="ki-icon">📞</div>
+              <div><div class="ki-title">Telepon & WhatsApp</div><div class="ki-sub">Hari kerja 07.00–16.00 WIB</div></div>
+            </div>
+            <div class="ki-content">
+              <strong>Telepon / Fax:</strong> (0281) 635231 / 635232<br>
+              <strong>PPDB Hotline:</strong> 0812-2345-6789 (WA)<br>
+              <strong>TU Sekolah:</strong> 0856-9876-5432 (WA)<br>
+              <strong>Kepala Sekolah:</strong> (melalui TU)
+            </div>
+          </div>
+
+          <div class="kontak-info-card fade-up delay-2">
+            <div class="ki-header">
+              <div class="ki-icon">✉️</div>
+              <div><div class="ki-title">Email</div><div class="ki-sub">Respon dalam 1×24 jam kerja</div></div>
+            </div>
+            <div class="ki-content">
+              <strong>Umum:</strong> info@smktelkompurwokerto.sch.id<br>
+              <strong>PPDB:</strong> ppdb@smktelkompurwokerto.sch.id<br>
+              <strong>Humas:</strong> humas@smktelkompurwokerto.sch.id<br>
+              <strong>Kerjasama:</strong> kerjasama@smktelkompurwokerto.sch.id
+            </div>
+          </div>
+
+          <div class="kontak-info-card fade-up delay-3">
+            <div class="ki-header">
+              <div class="ki-icon">⏰</div>
+              <div><div class="ki-title">Jam Operasional</div><div class="ki-sub">Jadwal pelayanan sekolah</div></div>
+            </div>
+            <div class="ki-content">
+              <table class="jam-table">
+                <tr><td>Senin – Kamis</td><td><strong>07.00 – 16.00 WIB</strong> <span class="open-tag">BUKA</span></td></tr>
+                <tr><td>Jumat</td><td><strong>07.00 – 16.30 WIB</strong> <span class="open-tag">BUKA</span></td></tr>
+                <tr><td>Sabtu</td><td><strong>07.00 – 13.00 WIB</strong> <span class="open-tag">BUKA</span></td></tr>
+                <tr><td>Minggu & Libur</td><td><strong>Tutup</strong> <span class="closed-tag">TUTUP</span></td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="kontak-info-card fade-up delay-4">
+            <div class="ki-header">
+              <div class="ki-icon">📱</div>
+              <div><div class="ki-title">Media Sosial</div><div class="ki-sub">Ikuti update terbaru kami</div></div>
+            </div>
+            <div class="ki-content" style="display:flex; gap:12px; flex-wrap:wrap;">
+              <a href="#" style="display:flex; align-items:center; gap:8px; background:var(--gray-100); padding:8px 14px; border-radius:8px; font-size:.85rem; font-weight:600; color:var(--text); transition:var(--transition);" onmouseover="this.style.background='#1877F2';this.style.color='white'" onmouseout="this.style.background='var(--gray-100)';this.style.color='var(--text)'">f Facebook</a>
+              <a href="#" style="display:flex; align-items:center; gap:8px; background:var(--gray-100); padding:8px 14px; border-radius:8px; font-size:.85rem; font-weight:600; color:var(--text); transition:var(--transition);" onmouseover="this.style.background='#E1306C';this.style.color='white'" onmouseout="this.style.background='var(--gray-100)';this.style.color='var(--text)'">📷 Instagram</a>
+              <a href="#" style="display:flex; align-items:center; gap:8px; background:var(--gray-100); padding:8px 14px; border-radius:8px; font-size:.85rem; font-weight:600; color:var(--text); transition:var(--transition);" onmouseover="this.style.background='#FF0000';this.style.color='white'" onmouseout="this.style.background='var(--gray-100)';this.style.color='var(--text)'">▶ YouTube</a>
+              <a href="#" style="display:flex; align-items:center; gap:8px; background:var(--gray-100); padding:8px 14px; border-radius:8px; font-size:.85rem; font-weight:600; color:var(--text); transition:var(--transition);" onmouseover="this.style.background='#000';this.style.color='white'" onmouseout="this.style.background='var(--gray-100)';this.style.color='var(--text)'">♪ TikTok</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="fade-up delay-1">
+          <div class="contact-form">
+            <h3>Kirim Pesan</h3>
+            <p>Punya pertanyaan? Kirimkan pesan kepada kami dan tim akan merespons secepatnya.</p>
+            <form onsubmit="handleContactSubmit(event)">
+              <div class="form-row">
+                <div class="cform-group">
+                  <label>Nama Lengkap *</label>
+                  <input type="text" placeholder="Nama Anda" required />
+                </div>
+                <div class="cform-group">
+                  <label>Email *</label>
+                  <input type="email" placeholder="email@contoh.com" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="cform-group">
+                  <label>Nomor HP</label>
+                  <input type="tel" placeholder="08xx-xxxx-xxxx" />
+                </div>
+                <div class="cform-group">
+                  <label>Keperluan</label>
+                  <select>
+                    <option>Informasi PPDB</option>
+                    <option>Informasi Program Keahlian</option>
+                    <option>Kerjasama / MoU</option>
+                    <option>Alumni</option>
+                    <option>Lainnya</option>
+                  </select>
+                </div>
+              </div>
+              <div class="cform-group">
+                <label>Subjek *</label>
+                <input type="text" placeholder="Topik pesan Anda" required />
+              </div>
+              <div class="cform-group">
+                <label>Pesan *</label>
+                <textarea rows="6" placeholder="Tulis pesan lengkap Anda di sini..." required></textarea>
+              </div>
+              <button type="submit" class="btn-send">Kirim Pesan ✉️</button>
+            </form>
+          </div>
+
+          <!-- Map placeholder -->
+          <div class="map-container fade-up delay-2">
+            <div class="map-placeholder">🗺️</div>
+            <div class="map-placeholder-text">
+              <strong>SMK Telkom Purwokerto</strong><br>
+              Jl. D.I. Panjaitan No.128, Purwokerto<br>
+              <a href="https://maps.google.com/?q=SMK+Telkom+Purwokerto" target="_blank" style="color:var(--red);font-weight:700;">Buka di Google Maps →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-bottom" style="padding:28px 0;">
+        <p>© <span class="current-year">2025</span> SMK Telkom Purwokerto.</p>
+        <a href="../index.html">← Kembali ke Beranda</a>
+      </div>
+    </div>
+  </footer>
+  <button id="back-top">↑</button>
+  <script src="../js/main.js"></script>
+  <script>
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.btn-send');
+      btn.textContent = '✅ Pesan Terkirim! Kami akan segera merespons.';
+      btn.style.background = '#10B981';
+      btn.disabled = true;
+    }
+  </script>
+</body>
+</html>

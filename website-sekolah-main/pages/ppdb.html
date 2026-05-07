@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PPDB 2025/2026 — SMK Telkom Purwokerto</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23E31E24'/><text y='.9em' font-size='70' x='50%' dominant-baseline='auto' text-anchor='middle' fill='white' font-weight='900' font-family='monospace'>T</text></svg>" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .page-hero { background: linear-gradient(135deg, var(--navy), var(--red-dark)); padding: 80px 0 60px; }
+    .page-hero h1 { color: white; }
+    .breadcrumb { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; font-size: .85rem; }
+    .breadcrumb a { color: rgba(255,255,255,.55); } .breadcrumb a:hover { color: white; }
+    .breadcrumb span { color: rgba(255,255,255,.3); } .breadcrumb .current { color: var(--gold); }
+
+    .ppdb-grid { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; }
+
+    .timeline { margin-top: 8px; }
+    .tl-item { display: flex; gap: 20px; padding-bottom: 28px; position: relative; }
+    .tl-item:not(:last-child)::after { content:''; position:absolute; left:20px; top:44px; bottom:0; width:2px; background:var(--gray-200); }
+    .tl-dot { width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; color:white; z-index:1; }
+    .tl-dot.active { background: var(--red); box-shadow: 0 0 0 6px rgba(227,30,36,.15); }
+    .tl-dot.done { background: var(--green, #10B981); }
+    .tl-dot.upcoming { background: var(--gray-400); }
+    .tl-content { padding-top: 8px; }
+    .tl-phase { font-size: .72rem; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: .07em; }
+    .tl-title { font-weight: 700; margin-bottom: 4px; }
+    .tl-date { font-size: .82rem; color: var(--gray-600); }
+
+    .syarat-list { margin-top: 24px; counter-reset: syarat; }
+    .syarat-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--gray-100); align-items: flex-start; }
+    .syarat-item:last-child { border-bottom: none; }
+    .syarat-num { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: white; display:flex; align-items:center; justify-content:center; font-size: .8rem; font-weight:800; flex-shrink:0; }
+    .syarat-text { font-size: .88rem; color: var(--gray-700, #374151); line-height: 1.5; }
+
+    .daftar-card { background: var(--navy); border-radius: var(--radius-lg); padding: 32px; position: sticky; top: 90px; }
+    .daftar-card h3 { color: white; font-size: 1.3rem; margin-bottom: 8px; }
+    .daftar-card p { color: rgba(255,255,255,.6); font-size: .88rem; margin-bottom: 24px; }
+    .daftar-form { display: flex; flex-direction: column; gap: 14px; }
+    .form-group label { display: block; font-size: .8rem; font-weight: 700; color: rgba(255,255,255,.7); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .05em; }
+    .form-group input, .form-group select {
+      width: 100%; padding: 11px 14px; border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,.15); background: rgba(255,255,255,.08);
+      color: white; font-family: inherit; font-size: .9rem; transition: var(--transition);
+    }
+    .form-group input::placeholder { color: rgba(255,255,255,.35); }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--red-light); background: rgba(255,255,255,.12); }
+    .form-group select option { background: var(--navy); }
+    .btn-submit { width: 100%; padding: 14px; border-radius: 8px; background: var(--red); color: white; font-weight: 800; font-size: 1rem; border: none; cursor: pointer; transition: var(--transition); margin-top: 6px; }
+    .btn-submit:hover { background: var(--red-light); transform: translateY(-2px); }
+    .daftar-note { font-size: .78rem; color: rgba(255,255,255,.4); text-align: center; margin-top: 14px; }
+
+    .jalur-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 32px; }
+    .jalur-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; text-align: center; transition: var(--transition); }
+    .jalur-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); border-color: var(--red); }
+    .jalur-icon { font-size: 2rem; margin-bottom: 12px; }
+    .jalur-name { font-weight: 800; font-size: .95rem; color: var(--navy); margin-bottom: 6px; }
+    .jalur-quota { font-size: .75rem; font-weight: 700; color: var(--red); margin-bottom: 8px; }
+    .jalur-desc { font-size: .82rem; color: var(--gray-600); }
+
+    .biaya-table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    .biaya-table th { background: var(--navy); color: white; padding: 12px 16px; text-align: left; font-size: .85rem; }
+    .biaya-table td { padding: 12px 16px; border-bottom: 1px solid var(--gray-100); font-size: .88rem; }
+    .biaya-table tr:hover td { background: var(--gray-100); }
+    .biaya-table td:last-child { font-weight: 700; color: var(--navy); }
+    .free-tag { background: #D1FAE5; color: #065F46; padding: 2px 8px; border-radius: 4px; font-size: .75rem; font-weight: 700; }
+
+    @media (max-width: 900px) {
+      .ppdb-grid { grid-template-columns: 1fr; }
+      .daftar-card { position: static; }
+      .jalur-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .jalur-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="topbar">
+    <div class="container">
+      <div>📍 Jl. D.I. Panjaitan No.128, Purwokerto &nbsp;|&nbsp; ☎️ (0281) 635231</div>
+    </div>
+  </div>
+
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="../index.html" class="nav-brand">
+          <div class="brand-logo">TK</div>
+          <div class="brand-name">SMK Telkom Purwokerto<span>Sekolah Unggulan Berbasis Teknologi</span></div>
+        </a>
+        <ul class="nav-links">
+          <li><a href="../index.html">Beranda</a></li>
+          <li><a href="profil.html">Profil</a></li>
+          <li class="nav-dropdown"><a href="#">Program Keahlian</a>
+            <div class="dropdown-menu">
+              <a href="rpl.html">💻 Rekayasa Perangkat Lunak</a>
+              <a href="tkj.html">🌐 Teknik Komputer & Jaringan</a>
+              <a href="multimedia.html">🎨 Multimedia</a>
+              <a href="akuntansi.html">📊 Akuntansi & Keuangan</a>
+            </div>
+          </li>
+          <li><a href="berita.html">Berita</a></li>
+          <li><a href="galeri.html">Galeri</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+          <li><a href="ppdb.html" class="btn btn-primary active">PPDB 2025</a></li>
+        </ul>
+        <button class="nav-toggle"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="../index.html">Beranda</a><span>/</span><span class="current">PPDB 2025/2026</span>
+      </div>
+      <span class="badge badge-gold" style="margin-bottom:14px;display:inline-flex;">🟢 Pendaftaran Sedang Dibuka</span>
+      <h1 class="heading-xl">PPDB 2025/2026</h1>
+      <p style="color:rgba(255,255,255,.7);margin-top:10px;font-size:1.05rem;">Penerimaan Peserta Didik Baru Tahun Pelajaran 2025/2026 — Kuota Terbatas!</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="ppdb-grid">
+        <!-- Left Content -->
+        <div>
+          <!-- Jalur Pendaftaran -->
+          <div class="fade-up">
+            <span class="badge">Pilihan Masuk</span>
+            <h2 class="heading-md" style="margin:14px 0 4px;">Jalur Penerimaan</h2>
+            <p style="color:var(--gray-600);font-size:.9rem;">Total kuota: 480 siswa baru di 6 program keahlian</p>
+            <div class="jalur-grid">
+              <div class="jalur-card">
+                <div class="jalur-icon">📊</div>
+                <div class="jalur-name">Jalur Prestasi Akademik</div>
+                <div class="jalur-quota">Kuota 40% — 192 Siswa</div>
+                <div class="jalur-desc">Berdasarkan nilai rapor SMP/MTs semester 1–5 dengan rata-rata minimal 75</div>
+              </div>
+              <div class="jalur-card">
+                <div class="jalur-icon">🏆</div>
+                <div class="jalur-name">Jalur Prestasi Non-Akademik</div>
+                <div class="jalur-quota">Kuota 20% — 96 Siswa</div>
+                <div class="jalur-desc">Bagi pemilik piala/sertifikat prestasi olahraga, seni, atau sains minimal tingkat kabupaten</div>
+              </div>
+              <div class="jalur-card">
+                <div class="jalur-icon">📍</div>
+                <div class="jalur-name">Jalur Zonasi</div>
+                <div class="jalur-quota">Kuota 30% — 144 Siswa</div>
+                <div class="jalur-desc">Diutamakan calon siswa yang tinggal dalam radius 6 km dari sekolah</div>
+              </div>
+              <div class="jalur-card">
+                <div class="jalur-icon">💙</div>
+                <div class="jalur-name">Jalur Afirmasi</div>
+                <div class="jalur-quota">Kuota 5% — 24 Siswa</div>
+                <div class="jalur-desc">Bagi calon siswa dari keluarga kurang mampu yang dibuktikan dengan KIP/PKH</div>
+              </div>
+              <div class="jalur-card">
+                <div class="jalur-icon">👨‍👩‍👧</div>
+                <div class="jalur-name">Jalur Alumni</div>
+                <div class="jalur-quota">Kuota 5% — 24 Siswa</div>
+                <div class="jalur-desc">Adik kandung alumni SMK Telkom Purwokerto mendapat prioritas penerimaan</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline PPDB -->
+          <div class="fade-up delay-1" style="margin-top:48px;">
+            <span class="badge">Jadwal</span>
+            <h2 class="heading-md" style="margin:14px 0 24px;">Tahapan PPDB</h2>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-dot active">1</div>
+                <div class="tl-content">
+                  <div class="tl-phase">Gelombang 1 — Sedang Berlangsung</div>
+                  <div class="tl-title">Pendaftaran Online & Offline</div>
+                  <div class="tl-date">📅 20 Januari – 20 Maret 2025</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot upcoming">2</div>
+                <div class="tl-content">
+                  <div class="tl-phase">Seleksi</div>
+                  <div class="tl-title">Tes Seleksi & Wawancara</div>
+                  <div class="tl-date">📅 25 – 28 Maret 2025</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot upcoming">3</div>
+                <div class="tl-content">
+                  <div class="tl-phase">Pengumuman</div>
+                  <div class="tl-title">Pengumuman Hasil Seleksi Gelombang 1</div>
+                  <div class="tl-date">📅 1 April 2025</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot upcoming">4</div>
+                <div class="tl-content">
+                  <div class="tl-phase">Gelombang 2 (jika kuota sisa)</div>
+                  <div class="tl-title">Pendaftaran Gelombang 2</div>
+                  <div class="tl-date">📅 5 – 30 April 2025</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot upcoming">5</div>
+                <div class="tl-content">
+                  <div class="tl-phase">Daftar Ulang</div>
+                  <div class="tl-title">Daftar Ulang & Pembayaran</div>
+                  <div class="tl-date">📅 5 – 20 Mei 2025</div>
+                </div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot upcoming">6</div>
+                <div class="tl-content">
+                  <div class="tl-phase">MOS</div>
+                  <div class="tl-title">Masa Orientasi Siswa (MOS)</div>
+                  <div class="tl-date">📅 14 – 16 Juli 2025</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Syarat Pendaftaran -->
+          <div class="fade-up delay-2" style="margin-top:48px;">
+            <span class="badge">Dokumen</span>
+            <h2 class="heading-md" style="margin:14px 0 4px;">Persyaratan Pendaftaran</h2>
+            <p style="color:var(--gray-600);font-size:.88rem;">Siapkan dokumen berikut sebelum mendaftar:</p>
+            <div class="syarat-list">
+              <div class="syarat-item"><div class="syarat-num">1</div><div class="syarat-text">Fotokopi Ijazah SMP/MTs atau Surat Keterangan Lulus (SKL) yang dilegalisir (2 lembar)</div></div>
+              <div class="syarat-item"><div class="syarat-num">2</div><div class="syarat-text">Fotokopi Rapor SMP/MTs semester 1 sampai 5 yang dilegalisir kepala sekolah (1 rangkap)</div></div>
+              <div class="syarat-item"><div class="syarat-num">3</div><div class="syarat-text">Fotokopi Kartu Keluarga (KK) yang masih berlaku (2 lembar)</div></div>
+              <div class="syarat-item"><div class="syarat-num">4</div><div class="syarat-text">Fotokopi Akta Kelahiran (2 lembar)</div></div>
+              <div class="syarat-item"><div class="syarat-num">5</div><div class="syarat-text">Pas foto terbaru ukuran 3×4 cm berlatar belakang merah (4 lembar)</div></div>
+              <div class="syarat-item"><div class="syarat-num">6</div><div class="syarat-text">Surat Keterangan Sehat dari dokter atau puskesmas (tidak buta warna)</div></div>
+              <div class="syarat-item"><div class="syarat-num">7</div><div class="syarat-text">Fotokopi NISN (Nomor Induk Siswa Nasional) yang dapat dicetak dari Data Pokok Pendidikan</div></div>
+              <div class="syarat-item"><div class="syarat-num">8</div><div class="syarat-text">Sertifikat/piagam prestasi (jika mendaftar melalui jalur prestasi non-akademik)</div></div>
+            </div>
+          </div>
+
+          <!-- Biaya -->
+          <div class="fade-up delay-1" style="margin-top:48px;">
+            <span class="badge">Investasi Pendidikan</span>
+            <h2 class="heading-md" style="margin:14px 0 4px;">Biaya Pendidikan 2025/2026</h2>
+            <p style="color:var(--gray-600);font-size:.88rem;">Biaya dapat berubah sewaktu-waktu. Konfirmasi ke TU sekolah untuk informasi terkini.</p>
+            <table class="biaya-table">
+              <thead>
+                <tr><th>Komponen</th><th>Keterangan</th><th>Jumlah</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Formulir Pendaftaran</td><td>Dibayar saat mendaftar</td><td>Rp 50.000</td></tr>
+                <tr><td>Uang Pangkal</td><td>Dibayar sekali saat daftar ulang</td><td>Rp 3.500.000</td></tr>
+                <tr><td>SPP Bulanan</td><td>Dibayar tiap bulan (12 bulan)</td><td>Rp 350.000/bln</td></tr>
+                <tr><td>Seragam Lengkap</td><td>4 stel (dinas, olahraga, praktek, batik)</td><td>Rp 1.200.000</td></tr>
+                <tr><td>Buku Paket & Modul</td><td>1 paket lengkap selama 3 tahun</td><td>Rp 800.000</td></tr>
+                <tr><td>Kegiatan MPLS</td><td>Masa Pengenalan Lingkungan Sekolah</td><td>Rp 200.000</td></tr>
+                <tr><td>Beasiswa KIP</td><td>Penerima KIP (Kartu Indonesia Pintar)</td><td><span class="free-tag">GRATIS SPP</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="fade-up delay-3">
+          <div class="daftar-card">
+            <div style="background:var(--red);border-radius:8px;padding:6px 14px;font-size:.72rem;font-weight:700;color:white;display:inline-block;margin-bottom:14px;letter-spacing:.06em;">🟢 PENDAFTARAN DIBUKA</div>
+            <h3>Daftar Sekarang!</h3>
+            <p>Isi formulir minat awal. Tim kami akan menghubungi Anda dalam 1×24 jam.</p>
+            <form class="daftar-form" onsubmit="handleSubmit(event)">
+              <div class="form-group">
+                <label>Nama Lengkap Calon Siswa</label>
+                <input type="text" placeholder="Nama sesuai akta kelahiran" required />
+              </div>
+              <div class="form-group">
+                <label>Nomor HP / WhatsApp Orang Tua</label>
+                <input type="tel" placeholder="08xx-xxxx-xxxx" required />
+              </div>
+              <div class="form-group">
+                <label>Asal Sekolah (SMP/MTs)</label>
+                <input type="text" placeholder="Nama sekolah asal" required />
+              </div>
+              <div class="form-group">
+                <label>Pilihan Program Keahlian</label>
+                <select required>
+                  <option value="">-- Pilih Program --</option>
+                  <option>Rekayasa Perangkat Lunak (RPL)</option>
+                  <option>Teknik Komputer & Jaringan (TKJ)</option>
+                  <option>Multimedia</option>
+                  <option>Akuntansi & Keuangan Lembaga</option>
+                  <option>Teknik Elektronika</option>
+                  <option>Kecerdasan Buatan (AI)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Jalur Pendaftaran</label>
+                <select required>
+                  <option value="">-- Pilih Jalur --</option>
+                  <option>Prestasi Akademik</option>
+                  <option>Prestasi Non-Akademik</option>
+                  <option>Zonasi</option>
+                  <option>Afirmasi / KIP</option>
+                  <option>Jalur Alumni</option>
+                </select>
+              </div>
+              <button type="submit" class="btn-submit">Kirim Pendaftaran →</button>
+            </form>
+            <div class="daftar-note">
+              Atau datang langsung ke sekolah<br>Senin–Jumat 08.00–14.00 WIB
+            </div>
+            <div style="margin-top:16px;padding:12px;background:rgba(255,255,255,.06);border-radius:8px;font-size:.8rem;color:rgba(255,255,255,.5);">
+              📞 Hotline PPDB:<br>
+              <strong style="color:white;">(0281) 635231 ext. 105</strong><br>
+              WhatsApp: <strong style="color:white;">0812-2345-6789</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-sm bg-off">
+    <div class="container">
+      <div class="text-center fade-up">
+        <span class="badge">Pertanyaan</span>
+        <h2 class="heading-lg" style="margin-top:14px;">Pertanyaan yang Sering Diajukan</h2>
+      </div>
+      <div style="max-width:720px;margin:32px auto 0;display:flex;flex-direction:column;gap:16px;" class="fade-up delay-1">
+        <details style="background:white;border:1px solid var(--gray-200);border-radius:var(--radius);padding:20px;">
+          <summary style="font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;">
+            Apakah ada tes masuk untuk mendaftar ke SMK Telkom Purwokerto? <span>▾</span>
+          </summary>
+          <p style="margin-top:12px;font-size:.9rem;color:var(--gray-600);">Ya, terdapat tes seleksi yang meliputi tes tertulis (Matematika, Bahasa Indonesia, dan IPA dasar) dan wawancara motivasi. Untuk jalur prestasi, seleksi lebih mempertimbangkan nilai rapor dan sertifikat prestasi.</p>
+        </details>
+        <details style="background:white;border:1px solid var(--gray-200);border-radius:var(--radius);padding:20px;">
+          <summary style="font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;">
+            Apakah SMK Telkom Purwokerto menerima beasiswa? <span>▾</span>
+          </summary>
+          <p style="margin-top:12px;font-size:.9rem;color:var(--gray-600);">Ya. Kami memiliki beberapa program beasiswa: Beasiswa KIP (Kartu Indonesia Pintar) — gratis SPP selama 3 tahun, Beasiswa Prestasi — potongan uang pangkal 50–100%, dan Beasiswa dari mitra industri seperti Telkom Indonesia dan BNI.</p>
+        </details>
+        <details style="background:white;border:1px solid var(--gray-200);border-radius:var(--radius);padding:20px;">
+          <summary style="font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;">
+            Bagaimana cara mendaftar secara online? <span>▾</span>
+          </summary>
+          <p style="margin-top:12px;font-size:.9rem;color:var(--gray-600);">Isi formulir pada halaman ini atau kunjungi ppdb.smktelkompurwokerto.sch.id. Upload dokumen persyaratan dalam format PDF/JPG. Setelah pendaftaran diterima, tim kami akan menghubungi via WhatsApp untuk jadwal verifikasi dokumen dan tes.</p>
+        </details>
+        <details style="background:white;border:1px solid var(--gray-200);border-radius:var(--radius);padding:20px;">
+          <summary style="font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;">
+            Apakah ada asrama untuk siswa dari luar kota? <span>▾</span>
+          </summary>
+          <p style="margin-top:12px;font-size:.9rem;color:var(--gray-600);">Ya, SMK Telkom Purwokerto memiliki asrama putra dan putri dengan kapasitas masing-masing 100 siswa. Biaya asrama terpisah dari biaya sekolah. Fasilitas: kamar ber-AC, WiFi, ruang belajar, dan pembimbing asrama 24 jam.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-bottom" style="padding:28px 0;">
+        <p>© <span class="current-year">2025</span> SMK Telkom Purwokerto. Hak cipta dilindungi undang-undang.</p>
+        <a href="../index.html">← Kembali ke Beranda</a>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-top">↑</button>
+  <script src="../js/main.js"></script>
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.btn-submit');
+      btn.textContent = '✅ Terkirim! Kami akan menghubungi Anda.';
+      btn.style.background = '#10B981';
+      btn.disabled = true;
+    }
+  </script>
+</body>
+</html>
